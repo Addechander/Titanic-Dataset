@@ -4,19 +4,21 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf       
 
-dftest = pd.DataFrame({"survived": 0,
+
+
+
+dftest = pd.DataFrame({
                     "sex": ["male"],
-                   "age": [34],
-                   "n_siblings_spouses": [4], 
-                   "fare": [34.4], 
+                   "age": [28],
+                   "n_siblings_spouses": [0], 
+                   "fare": [27.7208], 
                    "class": ["First"], 
-                   "deck": ["C"], 
+                   "deck": ["unknown"], 
                    "alone": ["y"]})
 
+dftest.info
 
-ytest = dftest.pop("survived")
-
-def Reg(dataset, label):
+def Reg(dataset):
     dftrain = pd.read_csv('Data/Titanic Dataset/eval.csv') # training data
     dfeval = pd.read_csv('Data/Titanic Dataset/eval.csv') # testing data  
 
@@ -67,14 +69,30 @@ def Reg(dataset, label):
 
     #def input_fn(features, batch_size=264):
         #return tf.data.Dataset.from_tensor_slices(dict(features)).batch(batch_size)
+
     
-    predict_input_fn = eval_input_fn = make_input_fn(dataset, label, num_epochs=1, shuffle=False)
-    
-    prediction = list(linear_est.evaluate(predict_input_fn))
-    return accuracy, prediction
+    def predict_input_fn():
+        ds = tf.data.Dataset.from_tensor_slices(dict(dataset))
+        ds = ds.batch(1)
+        return ds
+
+    # Use the predict function to make predictions on the new dataset
+    predictions = list(linear_est.predict(predict_input_fn))
+
+    for prediction in predictions:
+        print(prediction)
 
 
-accuracy, prediction = Reg(dftest, ytest)
+    pred_probability = predictions[0]["probabilities"][1]
+    pred_class = predictions[0]["class_ids"][0]
 
-print(accuracy, prediction)
+
+    print(pred_probability)
+    print(pred_class)
+
+    return accuracy, pred_probability, pred_class
+
+
+
+
 
