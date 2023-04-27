@@ -5,19 +5,6 @@ import matplotlib.pyplot as plt
 import tensorflow as tf       
 
 
-
-
-dftest = pd.DataFrame({
-                    "sex": ["male"],
-                   "age": [28],
-                   "n_siblings_spouses": [0], 
-                   "fare": [27.7208], 
-                   "class": ["First"], 
-                   "deck": ["unknown"], 
-                   "alone": ["y"]})
-
-dftest.info
-
 def Reg(dataset):
     dftrain = pd.read_csv('Data/Titanic Dataset/eval.csv') # training data
     dfeval = pd.read_csv('Data/Titanic Dataset/eval.csv') # testing data  
@@ -85,10 +72,6 @@ def Reg(dataset):
 
     pred_probability = predictions[0]["probabilities"][1]
     pred_class = predictions[0]["class_ids"][0]
-
-
-    print(pred_probability)
-    print(pred_class)
 
     return accuracy, pred_probability, pred_class
 
