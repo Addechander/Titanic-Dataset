@@ -11,5 +11,14 @@ alone = (input("Alone in the ship (y/n): ")).lower()
 data = pd.DataFrame(data =[[sex, age, n_siblings_spouses, fare, _class, deck, alone]], 
                     columns=["sex", "age", "n_siblings_spouses", "fare", "class", "deck", "alone"])
 
-print(data.head())
-print(data.info())
+
+dftest = pd.DataFrame({
+                    "sex": ["male"],
+                   "age": [28],
+                   "n_siblings_spouses": [0], 
+                   "fare": [27.7208], 
+                   "class": ["First"], 
+                   "deck": ["unknown"], 
+                   "alone": ["y"]})
+
+dftest.info
